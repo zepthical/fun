@@ -1,6 +1,6 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-local chr = player.Character
+local chr = player.Character or player.CharacterAdded:Wait()
 local hrp = chr:WaitForChild("HumanoidRootPart")
 
 local function getpos()
@@ -10,10 +10,14 @@ end
 local function mirage(state)
     local running = state
     
-    while running do task.wait()
-        hrp.CFrame = getpos().RightVector * 5
-        task.wait()
-        hrp.CFrame = getpos().LeftVector * 10 
+    while running do
+        -- Move right
+        hrp.CFrame = getpos() + (getpos().RightVector * 5)
+        task.wait(0.05) -- small delay
+        
+        -- Move left
+        hrp.CFrame = getpos() + (getpos().RightVector * -5)
+        task.wait(0.05)
     end
 end
 
