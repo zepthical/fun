@@ -3,38 +3,43 @@ local player = Players.LocalPlayer
 local chr = player.Character or player.CharacterAdded:Wait()
 local hrp = chr:WaitForChild("HumanoidRootPart")
 
+local running = false
+
 local function getpos()
     return hrp.CFrame
 end
 
-local function mirage(state)
-    local running = state
-    
+local function mirage()
     while running do
+        local pos = getpos()
+
         -- Move right
-        hrp.CFrame = getpos() + (getpos().RightVector * 5)
-        task.wait(0.05) -- small delay
-        
-        -- Move left
-        hrp.CFrame = getpos() + (getpos().RightVector * -5)
+        hrp.CFrame = pos + (pos.RightVector * 5)
         task.wait(0.05)
+
+        -- Move back to center
+        hrp.CFrame = pos
+        task.wait(0.02)
+
+        -- Move left
+        hrp.CFrame = pos + (pos.RightVector * -5)
+        task.wait(0.05)
+
+        -- Move back to center
+        hrp.CFrame = pos
+        task.wait(0.02)
     end
 end
 
-local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
+-- UI part
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3"))()
 
-local w = library:CreateWindow("speed mirage") -- Creates the window
+local w = library:CreateWindow("Speed Mirage")
+local b = w:CreateFolder("Speed")
 
-local b = w:CreateFolder("B") -- Creates the folder(U will put here your buttons,etc)
-
-b:Label("speed mirage",{
-    TextSize = 25; -- Self Explaining
-    TextColor = Color3.fromRGB(255,255,255); -- Self Explaining
-    BgColor = Color3.fromRGB(69,69,69); -- Self Explaining
-    
-}) 
-
-b:Toggle("Toggle Speed Mirage",function(v)
-    shared.toggle = v
-    mirage(shared.toggle)
+b:Toggle("Toggle Speed Mirage", function(v)
+    running = v
+    if running then
+        task.spawn(mirage)
+    end
 end)
