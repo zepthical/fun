@@ -14,7 +14,7 @@ local function mirage()
         local pos = getpos()
 
         -- Move right
-        hrp.CFrame = pos + (pos.RightVector * 5)
+        hrp.CFrame = pos + (pos.RightVector * 3)
         task.wait()
 
         -- Move back to center
@@ -22,7 +22,7 @@ local function mirage()
         task.wait()
 
         -- Move left
-        hrp.CFrame = pos + (pos.RightVector * -5)
+        hrp.CFrame = pos + (pos.RightVector * -3)
         task.wait()
 
         -- Move back to center
